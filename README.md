@@ -10,9 +10,9 @@ The project has functionality of uploading and downloading data in excel files.
 5. You can delete product in the dashboard screen by clicking on Delete link.
 6. You can export products in dashboard screen by clicking export excel button.
 
-**What hasn't been achieved:**
-1. Validating excel content while uploading.
-2. Passing null values for mandatory fields may result in error while file upload.
+**What couls be better:**
+1. Logging
+2. Enhanced front end validations and UI.
 
 **Tools used:**
 1. Visual Studio
