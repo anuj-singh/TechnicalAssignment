@@ -10,42 +10,48 @@ namespace InventoryManagement.Common
         /// <typeparam name="T"></typeparam>
         /// <param name="dt"></param>
         /// <returns></returns>
-            public static List<T> ConvertToList<T>(DataTable dt)
+        public static List<T> ConvertToList<T>(DataTable dt)
+        {
+            var columnNames = dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName.ToLower()).ToList();
+            var properties = typeof(T).GetProperties();
+            return dt.AsEnumerable().Select(row =>
             {
-                var columnNames = dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName.ToLower()).ToList();
-                var properties = typeof(T).GetProperties();
-                return dt.AsEnumerable().Select(row => {
-                    var objT = Activator.CreateInstance<T>();
-                    foreach (var prop in properties)
+                var objT = Activator.CreateInstance<T>();
+                foreach (var prop in properties)
+                {
+                    if (columnNames.Contains(prop.Name.ToLower()))
                     {
-                        if (columnNames.Contains(prop.Name.ToLower()))
+                        try
                         {
-                            try
+                            if (prop.Name.Equals("Description", StringComparison.OrdinalIgnoreCase))
                             {
-                                if (prop.Name.Equals("Quantity",StringComparison.OrdinalIgnoreCase))
-                                {
-                                    prop.SetValue(objT, Convert.ToInt32(row[prop.Name]));
-                                }
-                                else if (prop.Name.Equals("CreatedDate", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    prop.SetValue(objT,DateOnly.FromDateTime(Convert.ToDateTime(row[prop.Name])));
-                                }
-                                else if (prop.Name.Equals("UpdatedDate", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    prop.SetValue(objT, DateOnly.FromDateTime(Convert.ToDateTime(row[prop.Name])));
-                                }
-                                else
-                                {
-                                    prop.SetValue(objT, row[prop.Name]);
-                                }
+                                prop.SetValue(objT, row[prop.Name] is {} ? "" : row[prop.Name]);
                             }
-                            catch (Exception ex) {
-                                throw;
+                            else if (prop.Name.Equals("Quantity", StringComparison.OrdinalIgnoreCase))
+                            {
+                                prop.SetValue(objT, row[prop.Name] is {} ? 0 : Convert.ToInt32(row[prop.Name]));
+                            }
+                            else if (prop.Name.Equals("CreatedDate", StringComparison.OrdinalIgnoreCase))
+                            {
+                                prop.SetValue(objT, row[prop.Name] is {} ? DateOnly.FromDateTime(DateTime.Now) : DateOnly.FromDateTime(Convert.ToDateTime(row[prop.Name])));
+                            }
+                            else if (prop.Name.Equals("UpdatedDate", StringComparison.OrdinalIgnoreCase))
+                            {
+                                prop.SetValue(objT, row[prop.Name] is {} ? DateOnly.FromDateTime(DateTime.Now) : DateOnly.FromDateTime(Convert.ToDateTime(row[prop.Name])));
+                            }
+                            else
+                            {
+                                prop.SetValue(objT, row[prop.Name]);
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            throw;
+                        }
                     }
-                    return objT;
-                }).ToList();
-            }
+                }
+                return objT;
+            }).ToList();
+        }
     }
 }

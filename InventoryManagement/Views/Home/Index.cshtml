@@ -1,8 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to inventory management</h1>
-    <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Product"> Manage Products</a>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Hello, Welcome!</h1>
+        <p class="lead">This is a simple implementation of product management dashboard. It uses ASP.NET Core MVC, SQLite and EFCore for implementation.</p>
+        <a class="btn btn-primary btn-lg" asp-action="Index" asp-controller="Product" role="button">Go to Dashboard</a>
+    </div>
 </div>
