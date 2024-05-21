@@ -25,19 +25,19 @@ namespace InventoryManagement.Common
                         {
                             if (prop.Name.Equals("Description", StringComparison.OrdinalIgnoreCase))
                             {
-                                prop.SetValue(objT, row[prop.Name] is {} ? "" : row[prop.Name]);
+                                prop.SetValue(objT, row[prop.Name].GetType().Name is "DBNull" ? "" : row[prop.Name]);
                             }
                             else if (prop.Name.Equals("Quantity", StringComparison.OrdinalIgnoreCase))
                             {
-                                prop.SetValue(objT, row[prop.Name] is {} ? 0 : Convert.ToInt32(row[prop.Name]));
+                                prop.SetValue(objT, row[prop.Name].GetType().Name is "DBNull" ? 0 : Convert.ToInt32(row[prop.Name]));
                             }
                             else if (prop.Name.Equals("CreatedDate", StringComparison.OrdinalIgnoreCase))
                             {
-                                prop.SetValue(objT, row[prop.Name] is {} ? DateOnly.FromDateTime(DateTime.Now) : DateOnly.FromDateTime(Convert.ToDateTime(row[prop.Name])));
+                                prop.SetValue(objT, row[prop.Name].GetType().Name is "DBNull" ? DateOnly.FromDateTime(Convert.ToDateTime(DateTime.Now)) : DateOnly.FromDateTime(Convert.ToDateTime(row[prop.Name])));
                             }
                             else if (prop.Name.Equals("UpdatedDate", StringComparison.OrdinalIgnoreCase))
                             {
-                                prop.SetValue(objT, row[prop.Name] is {} ? DateOnly.FromDateTime(DateTime.Now) : DateOnly.FromDateTime(Convert.ToDateTime(row[prop.Name])));
+                                prop.SetValue(objT, row[prop.Name].GetType().Name is "DBNull" ? DateOnly.FromDateTime(Convert.ToDateTime(DateTime.Now)) : DateOnly.FromDateTime(Convert.ToDateTime(row[prop.Name])));
                             }
                             else
                             {
