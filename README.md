@@ -11,8 +11,11 @@ The project has functionality of uploading and downloading data in excel files.
 6. You can export products in dashboard screen by clicking export excel button.
 
 **What couls be better:**
-1. Logging
+1. Logging.
 2. Enhanced front end validations and UI.
+3. Unit tests.
+4. Secrets management.
+5. User Authentication and Authorization.
 
 **Tools used:**
 1. Visual Studio
